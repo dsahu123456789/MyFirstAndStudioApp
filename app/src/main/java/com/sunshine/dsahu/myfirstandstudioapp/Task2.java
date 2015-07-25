@@ -1,6 +1,9 @@
 package com.sunshine.dsahu.myfirstandstudioapp;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.KeyguardManager;
+import android.app.PendingIntent;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,6 +13,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -69,6 +74,8 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
             case R.id.btnLock:
                 boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
                 if (isAdmin) {
+                    //call method to wake up after 10 sec
+                    wakeUp();
                     mDevicePolicyManager.setMaximumTimeToLock(mComponentName, 10000);
                     mDevicePolicyManager.lockNow();
                 }else{
@@ -79,6 +86,46 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
         }
     }
 
+    private void wakeUp() {
+
+// Create a new PendingIntent and add it to the AlarmManager
+    Intent intent = new Intent(this, Task2.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    PendingIntent pendingIntent = PendingIntent.getActivity(this, 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+    AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+    /**
+    * * if you want start your application only one time un-comment below
+    * * line code and comment next line code */
+    // am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+    am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 15, pendingIntent);
+
+    KeyguardManager km = (KeyguardManager) getApplicationContext() .getSystemService(Context.KEYGUARD_SERVICE);
+    final KeyguardManager.KeyguardLock kl = km .newKeyguardLock("MyKeyguardLock");
+    kl.disableKeyguard();
+    PowerManager pm = (PowerManager) getApplicationContext() .getSystemService(Context.POWER_SERVICE);
+    PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+            | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
+    wakeLock.acquire();
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /******block is needed to raise the application if the lock is*********/
+        Window mWind;
+        mWind = this.getWindow();
+        mWind.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        mWind.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        mWind.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    /* ^^^^^^^block is needed to raise the application if the lock is*/
+    }
+
+
+    /**
+     *  Check for request successful for register app as admin
+     *
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADMIN_INTENT) {
             if (resultCode == RESULT_OK) {
