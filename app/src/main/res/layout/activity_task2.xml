@@ -13,10 +13,29 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lock it"
-        android:id="@+id/button_lock"
-        android:layout_centerVertical="true"
+        android:text="lock"
+        android:id="@+id/btnLock"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="149dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable"
+        android:id="@+id/btnEnableAdmin"
+        android:layout_above="@+id/btnDisableAdmin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disable"
+        android:id="@+id/btnDisableAdmin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/btnLock" />
 
 </RelativeLayout>

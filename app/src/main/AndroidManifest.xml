@@ -27,6 +27,19 @@
             android:name=".Task2"
             android:label="@string/title_activity_task2" >
         </activity>
+
+
+        <receiver
+            android:name=".MyAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/admin"/>
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

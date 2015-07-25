@@ -1,23 +1,15 @@
 package com.sunshine.dsahu.myfirstandstudioapp;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.KeyguardManager;
-import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -27,30 +19,49 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
 
     Button bLock;
 
-
+//
 //    DevicePolicyManager devicePolicyManager;
 //    ActivityManager activityManager;
 //    ComponentName componentName;
+
+    private static final int ADMIN_INTENT = 15;
+    private static final String description = "Some Description About Your Admin";
+    private DevicePolicyManager mDevicePolicyManager;
+    private ComponentName mComponentName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task2);
+
+        mDevicePolicyManager = (DevicePolicyManager)getSystemService(
+                Context.DEVICE_POLICY_SERVICE);
+        mComponentName = new ComponentName(this, MyAdmin.class);
+
+        Button btnEnableAdmin = (Button) findViewById(R.id.btnEnableAdmin);
+        Button btnDisableAdmin = (Button) findViewById(R.id.btnDisableAdmin);
+        Button btnLock = (Button) findViewById(R.id.btnLock);
+        btnEnableAdmin.setOnClickListener(this);
+        btnDisableAdmin.setOnClickListener(this);
+        btnLock.setOnClickListener(this);
+
+
 //
 //        KeyguardManager mgr = (KeyguardManager)getSystemService(Activity.KEYGUARD_SERVICE);
 //        KeyguardManager.KeyguardLock lock = mgr.newKeyguardLock(KEYGUARD_SERVICE);
 //        lock.reenableKeyguard();
-        DevicePolicyManager mDPM;
-        ComponentName devAdminReceiver; // this would have been declared in your class body
+//        DevicePolicyManager mDPM;
+//        ComponentName devAdminReceiver; // this would have been declared in your class body
 // then in your onCreate
-        mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
-        devAdminReceiver = new ComponentName(this, MyAdmin.class);
+//        mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
+//        devAdminReceiver = new ComponentName(this, MyAdmin.class);
 //then in your onResume
 
-        boolean admin = mDPM.isAdminActive(devAdminReceiver);
-        if (admin)
-            mDPM.lockNow();
-        else Log.i("LOCkScreen asdfasdfasdfasdfafasdfasfasfafasfasfas","Not an admin");
+//        boolean admin = mDPM.isAdminActive(devAdminReceiver);
+//        if (admin)
+//            mDPM.lockNow();
+//        else Log.i("LOCkScreen asdfasdfasdfasdfafasdfasfasfafasfasfas","Not an admin");
 
 
 //
@@ -77,8 +88,8 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
 //        DevicePolicyManager mDPM;
 //        mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 
-//        bLock = (Button)findViewById(R.id.button_lock);
-//        bLock.setOnClickListener(this);
+        bLock = (Button)findViewById(R.id.btnLock);
+        bLock.setOnClickListener(this);
 
         // using powerManager wakelock
 //        wakeLock();
@@ -122,36 +133,39 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.button_lock){
+        switch (v.getId()) {
+            case R.id.btnEnableAdmin:
+                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mComponentName);
+                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,description);
+                startActivityForResult(intent, ADMIN_INTENT);
+                break;
 
-            //Get the window from the context
+            case R.id.btnDisableAdmin:
+                mDevicePolicyManager.removeActiveAdmin(mComponentName);
+                Toast.makeText(getApplicationContext(), "Admin registration removed", Toast.LENGTH_SHORT).show();
+                break;
 
+            case R.id.btnLock:
+                boolean isAdmin = mDevicePolicyManager.isAdminActive(mComponentName);
+                if (isAdmin) {
+                    mDevicePolicyManager.setMaximumTimeToLock(mComponentName, 10000);
+                    mDevicePolicyManager.lockNow();
+                }else{
 
-
-//            Intent intent = new Intent(DevicePolicyManager
-//                    .ACTION_ADD_DEVICE_ADMIN);
-//            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,
-//                    componentName);
-//            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,
-//                    "Additional text explaining why this needs to be added.");
-//            startActivityForResult(intent, 1);
-//
-//
-//            devicePolicyManager.lockNow();
-////            Toast.makeText(this, "Locked me", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Not Registered as admin", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 1:
-                if (resultCode == Activity.RESULT_OK) {
-                    Log.i("DeviceAdminSample", "Admin enabled!");
-                } else {
-                    Log.i("DeviceAdminSample", "Admin enable FAILED!");
-                }
-                return;
+        if (requestCode == ADMIN_INTENT) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(getApplicationContext(), "Registered As Admin", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Failed to register as Admin", Toast.LENGTH_SHORT).show();
+            }
         }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
