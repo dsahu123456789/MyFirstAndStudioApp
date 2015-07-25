@@ -17,13 +17,6 @@ import android.widget.Toast;
 public class Task2 extends ActionBarActivity implements View.OnClickListener {
 
 
-    Button bLock;
-
-//
-//    DevicePolicyManager devicePolicyManager;
-//    ActivityManager activityManager;
-//    ComponentName componentName;
-
     private static final int ADMIN_INTENT = 15;
     private static final String description = "Some Description About Your Admin";
     private DevicePolicyManager mDevicePolicyManager;
@@ -47,88 +40,9 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
         btnLock.setOnClickListener(this);
 
 
-//
-//        KeyguardManager mgr = (KeyguardManager)getSystemService(Activity.KEYGUARD_SERVICE);
-//        KeyguardManager.KeyguardLock lock = mgr.newKeyguardLock(KEYGUARD_SERVICE);
-//        lock.reenableKeyguard();
-//        DevicePolicyManager mDPM;
-//        ComponentName devAdminReceiver; // this would have been declared in your class body
-// then in your onCreate
-//        mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
-//        devAdminReceiver = new ComponentName(this, MyAdmin.class);
-//then in your onResume
-
-//        boolean admin = mDPM.isAdminActive(devAdminReceiver);
-//        if (admin)
-//            mDPM.lockNow();
-//        else Log.i("LOCkScreen asdfasdfasdfasdfafasdfasfasfafasfasfas","Not an admin");
-
-
-//
-//        Window wind;
-//        /******block is needed to raise the application if the lock is*********/
-//        wind = this.getWindow();
-//        wind.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-//        wind.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-//        wind.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//    /* ^^^^^^^block is needed to raise the application if the lock is*/
-
-//        devicePolicyManager = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
-//        activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-//        componentName = new ComponentName(this, MyAdmin.class);
-
-//        WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
-
-        //Unlock
-        //http://developer.android.com/reference/android/app/Activity.html#getWindow()
-//        Window window = getWindow();
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-
-        //Lock device
-//        DevicePolicyManager mDPM;
-//        mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
-
-        bLock = (Button)findViewById(R.id.btnLock);
-        bLock.setOnClickListener(this);
-
-        // using powerManager wakelock
-//        wakeLock();
     }
 
-    private void wakeLock() {
 
-//        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-//        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"MyTag");
-//
-//        wl.acquire();
-//
-//        KeyguardManager keyguardManager = (KeyguardManager)getSystemService(Activity.KEYGUARD_SERVICE);
-//        KeyguardManager.KeyguardLock lock = keyguardManager.newKeyguardLock(KEYGUARD_SERVICE);
-//
-//        lock.reenableKeyguard();
-
-//        DevicePolicyManager mDPM;
-//        ComponentName mDeviceAdminSample;
-//
-//        mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
-//        mDeviceAdminSample = (ComponentName)getCallingActivity();
-//
-//        long timeMs = 1000L*100;
-//        mDPM.setMaximumTimeToLock(mDeviceAdminSample, timeMs);
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(10000);
-//                }catch (InterruptedException e){
-//                    e.printStackTrace();
-//                }
-//                //wl.release();
-//            }
-//        }).start();
-
-    }
 
 
     @Override
