@@ -10,10 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-
+/*
+ *  This Activity contains two two Button- Task1 and Task2
+*/
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
-    Button bTask1,bTask2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +28,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     /* initialize */
     private void init() {
-        bTask1 = (Button)findViewById(R.id.button_mainactivity_task1);
-        bTask2 = (Button)findViewById(R.id.button_mainactivity_task2);
+        Button bTask1 = (Button)findViewById(R.id.button_mainactivity_task1);
+        Button bTask2 = (Button)findViewById(R.id.button_mainactivity_task2);
 
         bTask1.setOnClickListener(this);
         bTask2.setOnClickListener(this);
@@ -57,15 +59,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
 
-
+      /*
+         on button1 click textview1 will display "button 1 pressed"
+          " button2  "    textview2 will display ""
+         and --vice-versa
+      */
     @Override
     public void onClick(View v) {
-       /*
-         on button1 click textview1 will display "button 1 pressed"
-                            textview2 will display ""
-         on button2 click --vice-versa
-        */
-
 
         switch (v.getId()){
             case R.id.button_mainactivity_task1:

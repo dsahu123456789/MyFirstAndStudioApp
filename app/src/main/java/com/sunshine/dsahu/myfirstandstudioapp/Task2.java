@@ -13,7 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
+/**
+ * Task2 activity will lock the screen for 10 sec and unlock it for 10 sec and cycle goes on.
+ */
 public class Task2 extends ActionBarActivity implements View.OnClickListener {
 
 
@@ -32,6 +34,7 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
                 Context.DEVICE_POLICY_SERVICE);
         mComponentName = new ComponentName(this, MyAdmin.class);
 
+
         Button btnEnableAdmin = (Button) findViewById(R.id.btnEnableAdmin);
         Button btnDisableAdmin = (Button) findViewById(R.id.btnDisableAdmin);
         Button btnLock = (Button) findViewById(R.id.btnLock);
@@ -42,11 +45,14 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
 
     }
 
-
-
-
+    /**
+     * on button enable will register this app as admin
+     * and button will disable the above
+     * and button lock if as admin will lock the screen if as admin registered
+     */
     @Override
     public void onClick(View v) {
+        //TODO: lock button to be changed - set timer to lock and unlock after every 10 sec
         switch (v.getId()) {
             case R.id.btnEnableAdmin:
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
