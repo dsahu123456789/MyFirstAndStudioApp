@@ -86,9 +86,12 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * It will start the same activity as pending activity with the help of Alarm Manager
+     *
+     */
     private void wakeUp() {
-
-// Create a new PendingIntent and add it to the AlarmManager
+    // Create a new PendingIntent and add it to the AlarmManager
     Intent intent = new Intent(this, Task2.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     PendingIntent pendingIntent = PendingIntent.getActivity(this, 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
@@ -96,7 +99,7 @@ public class Task2 extends ActionBarActivity implements View.OnClickListener {
     * * if you want start your application only one time un-comment below
     * * line code and comment next line code */
     // am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-    am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 15, pendingIntent);
+    am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * 10, pendingIntent);
 
     KeyguardManager km = (KeyguardManager) getApplicationContext() .getSystemService(Context.KEYGUARD_SERVICE);
     final KeyguardManager.KeyguardLock kl = km .newKeyguardLock("MyKeyguardLock");
