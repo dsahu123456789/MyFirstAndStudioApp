@@ -21,6 +21,11 @@ import android.widget.Toast;
 /**
  * Task2 activity will lock the screen for 10 sec and unlock it for 10 sec and cycle goes on.
  */
+
+
+/**
+ * ReF: http://www.androidhub4you.com/2013/07/how-to-unlock-android-phone.html
+ */
 public class Task2 extends ActionBarActivity implements View.OnClickListener {
 
 
